@@ -1,16 +1,25 @@
-#!/usr/bin/env python3
-
 import requests
 from time import sleep
 import os
 from os.path import join, dirname
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
+from utils import oauth
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-ANILIST_TOKEN = os.environ.get("ANILIST_TOKEN")
-ANILIST_USERNAME = input("Input a username!\n> ")
+AL_DATA = {}
+if ((os.environ.get("ANILIST_TOKEN") == None) or (os.environ.get("ANILIST_TOKEN") == "")):
+    AL_DATA = {
+        "ANILIST_CLIENT_ID": os.environ.get("ANILIST_CLIENT_ID"),
+        "ANILIST_CLIENT_SECRET": os.environ.get("ANILIST_CLIENT_SECRET"),
+        "ANILIST_REDIRECT_URI": os.environ.get("ANILIST_REDIRECT_URI")
+    }
+    AL_DATA["ANILIST_TOKEN"] = oauth.GET_AL_TOKEN(AL_DATA)['access_token']
+    set_key(dotenv_path, "ANILIST_TOKEN",
+            AL_DATA["ANILIST_TOKEN"], quote_mode="always")
+else:
+    AL_DATA["ANILIST_TOKEN"] = os.environ.get("ANILIST_TOKEN")
 
 
 def run_query(query, variables):
@@ -19,7 +28,7 @@ def run_query(query, variables):
         json={"query": query, "variables": variables},
         headers={
             'content-type': "application/json",
-            'authorization': "Bearer " + ANILIST_TOKEN
+            'authorization': "Bearer " + AL_DATA["ANILIST_TOKEN"]
         }
     )
 
@@ -32,6 +41,7 @@ def run_query(query, variables):
 
 
 def main():
+    ANILIST_USERNAME = input("Input a username!\n> ")
     query = '''
         query ($username: String) {
           User (name: $username) {
