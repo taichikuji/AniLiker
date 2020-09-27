@@ -28,12 +28,9 @@ This python project asks for a username from AniList and gives likes to every po
 
    If you already have a token, you can ignore the rest.
 
-   If you don't have anything, and you don't know how to retrieve the API Client from AniList
+   If you don't have anything, and you don't know how to retrieve the API Client from AniList, you can follow our **[Wiki!](https://github.com/taichikuji/AniLiker/wiki)**
 
 3. Now that you have the .env file ready, you just need to run the project! You have two ways;
    1. You can use pipenv. To do this you just need to install it with `pip install pipenv` and then `pipenv update`. This should prepare a virtual env with all the needed packages.
       After this you need to run `pipenv run main.py` and it should work just fine!
-   2. You can do it manually without pipenv, this means you'll need to install the next packages:
-      - requests
-      - python-dotenv
-      - requests-oauthlib
+   2. You can do it manually without pipenv, this means you'll need to install the next packages: - requests - python-dotenv - requests-oauthlib
