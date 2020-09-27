@@ -1,6 +1,7 @@
 # AniLiker: A python autoliker
 
 <p align="center"><img src="media/logo.webp" width="150px" /><br/>
+<a href="https://aniliker.okweeb.repl.run"><img src="https://repl.it/badge/github/taichikuji/aniliker" /></a>
 <img src="https://img.shields.io/github/license/taichikuji/AniLiker?color=FF3351&logo=github" />
 <img src="https://img.shields.io/github/commit-activity/w/taichikuji/AniLiker?label=commits&logo=github" />
 </p>
@@ -13,7 +14,7 @@ This project was a way to learn GraphQL, and also create a project that I've bee
 
 This python project asks for a username from AniList and gives likes to every post available. Finishes with an error if gets capped by the API.
 
-## How do I make it work?
+## How do I make it work if I want to run it locally?
 
 1. First of all, you need to remove **.example** from **.env.example**.
 
