@@ -1,7 +1,7 @@
 # AniLiker: A python autoliker
 
 <p align="center"><img src="media/logo.webp" width="150px" /><br/>
-<a href="https://aniliker.okweeb.repl.run"><img src="https://repl.it/badge/github/taichikuji/aniliker" /></a>
+<a href="https://replit.com/@OkWeeb/AniLiker"><img src="https://repl.it/badge/github/taichikuji/aniliker" /></a>
 <img src="https://img.shields.io/github/license/taichikuji/AniLiker?color=FF3351&logo=github" />
 <img src="https://img.shields.io/github/commit-activity/w/taichikuji/AniLiker?label=commits&logo=github" />
 </p>
