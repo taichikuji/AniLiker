@@ -18,6 +18,7 @@ if ((os.environ.get("ANILIST_TOKEN") == None) or (os.environ.get("ANILIST_TOKEN"
     AL_DATA["ANILIST_TOKEN"] = oauth.GET_AL_TOKEN(AL_DATA)['access_token']
     set_key(dotenv_path, "ANILIST_TOKEN",
             AL_DATA["ANILIST_TOKEN"], quote_mode="always")
+    print("AL Token has been saved on dotenv file")
 else:
     AL_DATA["ANILIST_TOKEN"] = os.environ.get("ANILIST_TOKEN")
 
@@ -36,8 +37,11 @@ def run_query(query, variables):
 
     if response.status_code == 200:
         return response.json()["data"]
+    elif response.status_code == 429:
+        print("Too many requests! Waiting 60 seconds to continue...")
+        sleep(60)
     else:
-        raise Exception("AniList query failed, check the provided username!")
+        raise Exception("AniList query failed!")
 
 
 def main():
@@ -96,7 +100,6 @@ def main():
 
         # ToggleLikeV2 runs
         run_query(query, variables)
-        sleep(3)
 
 
 if __name__ == "__main__":
