@@ -34,6 +34,7 @@ def run_query(query, variables):
     )
 
     print(response)
+    # print(f'{response.headers["X-RateLimit-Remaining"]} remaining')
 
     if response.status_code == 200:
         return response.json()["data"]
@@ -48,7 +49,6 @@ def main():
     ANILIST_USERNAME = input("Input a username!\n> ")
 
     # Get user Id based on username
-
     query = '''
         query ($username: String) {
           User (name: $username) {
