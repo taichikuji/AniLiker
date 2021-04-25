@@ -37,15 +37,15 @@ def run_query(query, variables):
 
     if response.status_code == 200:
         return response.json()["data"]
-    elif response.status_code == 429:
-        print("Too many requests! Waiting 60 seconds to continue...")
-        sleep(60)
     else:
         raise Exception("AniList query failed!")
 
 
 def main():
     ANILIST_USERNAME = input("Input a username!\n> ")
+
+    # Get user Id based on username
+
     query = '''
         query ($username: String) {
           User (name: $username) {
@@ -61,45 +61,59 @@ def main():
     user_id = run_query(query, variables)["User"]["id"]
 
     # Get latest AniList activities by user Id.
-
-    query = '''
-      query ($user_id: Int) {
-        Page{
-          activities (userId: $user_id, sort: ID_DESC) {
-              ... on ListActivity {
-                id
-            }
-            ... on TextActivity {
-                id
+    npage = 1
+    while npage > 0:
+      query = '''
+      query ($user_id: Int, $page: Int, $perPage: Int) {
+              Page (page: $page, perPage: $perPage) {
+                pageInfo {
+                    hasNextPage
+                  }
+                activities (userId: $user_id, sort: ID_DESC) {
+                    ... on ListActivity {
+                      id
+                  }
+                  ... on TextActivity {
+                      id
+                      }
+                  ... on MessageActivity {
+                    id
+                  }
                 }
-            ... on MessageActivity {
-              id
+              }
+            }
+      '''
+
+      variables = {
+          "user_id": user_id,
+          "page": npage,
+          "perPage": 30
+
+      }
+      page = run_query(query, variables)["Page"]
+      activity = page["activities"]
+      pageInfo = page["pageInfo"]["hasNextPage"]
+
+      for value in activity:
+          query = '''
+          mutation ($id: Int) {
+            ToggleLikeV2(id: $id, type: ACTIVITY) {
+              __typename
             }
           }
-        }
-      }
-    '''
-
-    variables = {
-        "user_id": user_id
-    }
-
-    activity = run_query(query, variables)["Page"]["activities"]
-
-    for value in activity:
-        query = '''
-        mutation ($id: Int) {
-          ToggleLikeV2(id: $id, type: ACTIVITY) {
-            __typename
+        '''
+          variables = {
+              "id": value["id"]
           }
-        }
-      '''
-        variables = {
-            "id": value["id"]
-        }
 
-        # ToggleLikeV2 runs
-        run_query(query, variables)
+          # ToggleLikeV2 runs
+          run_query(query, variables)
+      print(f"End of page, waiting 60 seconds to continue\nPage: {npage}")
+      if pageInfo:
+        npage = npage + 1
+      else:
+        npage = 0
+      sleep(60)
 
 
 if __name__ == "__main__":
