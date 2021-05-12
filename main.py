@@ -36,6 +36,7 @@ def run_query(query, variables):
     )
 
     print(response)
+    # print(f'{response.headers["X-RateLimit-Remaining"]} remaining')
 
     if response.status_code == 200:
         return response.json()["data"]
