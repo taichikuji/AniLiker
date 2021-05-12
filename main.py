@@ -18,8 +18,7 @@ if (os.environ.get("ANILIST_TOKEN") is None) or (os.environ.get("ANILIST_TOKEN")
         "ANILIST_REDIRECT_URI": os.environ.get("ANILIST_REDIRECT_URI"),
     }
     AL_DATA["ANILIST_TOKEN"] = oauth.GET_AL_TOKEN(AL_DATA)["access_token"]
-    set_key(dotenv_path, "ANILIST_TOKEN",
-            AL_DATA["ANILIST_TOKEN"], quote_mode="always")
+    set_key(dotenv_path, "ANILIST_TOKEN", AL_DATA["ANILIST_TOKEN"], quote_mode="always")
     print("AL Token has been saved on dotenv file")
 else:
     AL_DATA["ANILIST_TOKEN"] = os.environ.get("ANILIST_TOKEN")
