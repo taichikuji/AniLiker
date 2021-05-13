@@ -1,9 +1,9 @@
 import os
 from os.path import dirname, join
+
 from time import sleep
 import requests
 from dotenv import load_dotenv, set_key
-
 from utils import oauth
 
 dotenv_path = join(dirname(__file__), ".env")
