@@ -1,7 +1,6 @@
 import os
 from os.path import dirname, join
 from time import sleep
-
 import requests
 from dotenv import load_dotenv, set_key
 
@@ -11,7 +10,7 @@ dotenv_path = join(dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
 AL_DATA = {}
-if (os.environ.get("ANILIST_TOKEN") is None) or (os.environ.get("ANILIST_TOKEN") is ""):
+if (os.environ.get("ANILIST_TOKEN") is None) or (os.environ.get("ANILIST_TOKEN") == ""):
     AL_DATA = {
         "ANILIST_CLIENT_ID": os.environ.get("ANILIST_CLIENT_ID"),
         "ANILIST_CLIENT_SECRET": os.environ.get("ANILIST_CLIENT_SECRET"),
