@@ -7,7 +7,7 @@ def GET_AL_TOKEN(DATA):
     authorization_base_url = "https://anilist.co/api/v2/oauth/authorize"
     token_url = "https://anilist.co/api/v2/oauth/token"
     AL = OAuth2Session(client_id, redirect_uri=DATA["ANILIST_REDIRECT_URI"])
-    authorization_url, state = AL.authorization_url(authorization_base_url)
+    authorization_url = AL.authorization_url(authorization_base_url)
     redirect_response = input(
         f"Your Oauth2 url is {authorization_url} .\n Visit the url and login, then paste the full redirect URL here\n==============\nIF YOU GET A INSECURE HTTP ERROR, REPLACE HTTP WITH HTTPS\n==============\n> "
     )
