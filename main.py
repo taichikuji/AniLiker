@@ -94,18 +94,18 @@ def main():
         pageInfo = page["pageInfo"]["hasNextPage"]
 
         for value in activity:
-          if not value["isLiked"]:
-            query = """
+            if not value["isLiked"]:
+                query = """
           mutation ($id: Int) {
             ToggleLikeV2(id: $id, type: ACTIVITY) {
               __typename
             }
           }
         """
-            variables = {"id": value["id"]}
+                variables = {"id": value["id"]}
 
-            # ToggleLikeV2 runs
-            run_query(query, variables)
+                # ToggleLikeV2 runs
+                run_query(query, variables)
         print(f"End of page, waiting 60 seconds to continue\nPage: {npage}")
         if pageInfo:
             npage = npage + 1
