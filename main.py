@@ -10,7 +10,7 @@ dotenv_path = join(dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
 AL_DATA = {}
-if (os.environ.get("ANILIST_TOKEN") is None) or (os.environ.get("ANILIST_TOKEN") == ''):
+if (os.environ.get("ANILIST_TOKEN") is None) or (os.environ.get("ANILIST_TOKEN") == ""):
     AL_DATA = {
         "ANILIST_CLIENT_ID": os.environ.get("ANILIST_CLIENT_ID"),
         "ANILIST_CLIENT_SECRET": os.environ.get("ANILIST_CLIENT_SECRET"),
@@ -43,16 +43,20 @@ def run_query(query, variables):
     else:
         raise Exception("AniList query failed!")
 
-def query_typein ():
 
-  # This will save a default value onto the dotenv if found empty. Then return the value.
+def query_typein():
 
-  if (os.environ.get("QUERY_OPTIONS") is None) or (os.environ.get("QUERY_OPTIONS") == ''):
-    q_typein = "TEXT, ANIME_LIST, MANGA_LIST, MESSAGE"
-    set_key(dotenv_path, "QUERY_OPTIONS", q_typein, quote_mode="always")
-  else:
-    q_typein = os.environ.get("QUERY_OPTIONS")
-  return q_typein.split(', ')
+    # This will save a default value onto the dotenv if found empty. Then return the value.
+
+    if (os.environ.get("QUERY_OPTIONS") is None) or (
+        os.environ.get("QUERY_OPTIONS") == ""
+    ):
+        q_typein = "TEXT, ANIME_LIST, MANGA_LIST, MESSAGE"
+        set_key(dotenv_path, "QUERY_OPTIONS", q_typein, quote_mode="always")
+    else:
+        q_typein = os.environ.get("QUERY_OPTIONS")
+    return q_typein.split(", ")
+
 
 def main():
     ANILIST_USERNAME = input("Input a username!\n> ")
@@ -98,7 +102,12 @@ def main():
             }
       """
 
-        variables = {"user_id": user_id, "page": npage, "perPage": 30, "q_options": query_typein()}
+        variables = {
+            "user_id": user_id,
+            "page": npage,
+            "perPage": 30,
+            "q_options": query_typein()
+        }
         page = run_query(query, variables)["Page"]
         activity = page["activities"]
         pageInfo = page["pageInfo"]["hasNextPage"]
