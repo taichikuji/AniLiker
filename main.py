@@ -44,6 +44,20 @@ def run_query(query, variables):
         raise Exception("AniList query failed!")
 
 
+def query_typein():
+
+    # This will save a default value onto the dotenv if found empty. Then return the value.
+
+    if (os.environ.get("QUERY_OPTIONS") is None) or (
+        os.environ.get("QUERY_OPTIONS") == ""
+    ):
+        q_typein = "TEXT, ANIME_LIST, MANGA_LIST, MESSAGE"
+        set_key(dotenv_path, "QUERY_OPTIONS", q_typein, quote_mode="always")
+    else:
+        q_typein = os.environ.get("QUERY_OPTIONS")
+    return q_typein.split(", ")
+
+
 def main():
     ANILIST_USERNAME = input("Input a username!\n> ")
 
@@ -62,15 +76,16 @@ def main():
     user_id = run_query(query, variables)["User"]["id"]
 
     # Get latest AniList activities by user Id.
+
     npage = 1
     while npage > 0:
         query = """
-      query ($user_id: Int, $page: Int, $perPage: Int) {
+      query ($user_id: Int, $page: Int, $perPage: Int, $q_options: [ActivityType]) {
               Page (page: $page, perPage: $perPage) {
                 pageInfo {
                     hasNextPage
                   }
-                activities (userId: $user_id, sort: ID_DESC) {
+                activities (userId: $user_id, sort: ID_DESC, type_in: $q_options) {
                     ... on ListActivity {
                       id
                       isLiked
@@ -88,7 +103,12 @@ def main():
             }
       """
 
-        variables = {"user_id": user_id, "page": npage, "perPage": 30}
+        variables = {
+            "user_id": user_id,
+            "page": npage,
+            "perPage": 30,
+            "q_options": query_typein(),
+        }
         page = run_query(query, variables)["Page"]
         activity = page["activities"]
         pageInfo = page["pageInfo"]["hasNextPage"]
