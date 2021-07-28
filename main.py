@@ -76,6 +76,7 @@ def main():
     user_id = run_query(query, variables)["User"]["id"]
 
     # Get latest AniList activities by user Id.
+
     npage = 1
     while npage > 0:
         query = """
@@ -106,7 +107,7 @@ def main():
             "user_id": user_id,
             "page": npage,
             "perPage": 30,
-            "q_options": query_typein()
+            "q_options": query_typein(),
         }
         page = run_query(query, variables)["Page"]
         activity = page["activities"]
