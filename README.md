@@ -6,6 +6,14 @@
 <img src="https://img.shields.io/github/commit-activity/w/taichikuji/AniLiker?label=commits&logo=github" />
 </p>
 
+# This project is going to be archived following a warning from AL
+
+This means, so far, no more development of this project. I've come to realize it's just not worth it. I will keep the project up, but I don't think I will continue updating / supporting it.
+
+I know a lot of people really liked this project and even offered new ideas, but this project itself is not ToS in regards of AL, and I know that some people used it for nefarious use.
+
+I will continue to learn and develop more using AL's API, but for now, this is going archive. Hope you understand.
+
 ## What's the point of this project?
 
 This project was a way to learn GraphQL, and also create a project that I've been interested on using and testing for fun.
